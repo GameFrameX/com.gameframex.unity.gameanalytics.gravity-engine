@@ -1,0 +1,17 @@
+{
+    "name": "GameFrameX.GameAnalytics.GravityEngine.Runtime",
+    "references": [
+        "GameFrameX.GameAnalytics.Runtime",
+        "GameFrameX.Runtime",
+        "GravityEngine.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
