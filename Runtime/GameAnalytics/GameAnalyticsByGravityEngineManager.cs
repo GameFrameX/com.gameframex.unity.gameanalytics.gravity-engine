@@ -13,7 +13,7 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
     {
         private readonly Dictionary<string, object> m_publicProperties = new Dictionary<string, object>();
 
-        public override void Init(string appid, string channel, string appKey, string secretKey)
+        public override void Init(string appid, string channelId, string channel, string appKey, string secretKey)
         {
             var gravityEngineAPI = Object.FindObjectOfType<GravityEngineAPI>();
             if (gravityEngineAPI == null)
@@ -22,7 +22,7 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
                 return;
             }
 
-            GravityEngineAPI.StartGravityEngine(appid, null, GravityEngineAPI.SDKRunMode.NORMAL, channel);
+            GravityEngineAPI.StartGravityEngine(appid, channelId, GravityEngineAPI.SDKRunMode.NORMAL, channel);
 #if UNITY_WEBGL
 #if ENABLE_WECHAT_MINI_GAME && GRAVITY_WECHAT_GAME_MODE
             GravityEngineAPI.EnableAutoTrack(AUTO_TRACK_EVENTS.WECHAT_GAME_ALL);
