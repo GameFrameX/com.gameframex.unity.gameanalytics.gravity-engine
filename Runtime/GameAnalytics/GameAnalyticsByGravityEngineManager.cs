@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameFrameX.GameAnalytics.Runtime;
+using GameFrameX.Runtime;
 using GravityEngine;
 using GravitySDK.PC.Constant;
 using UnityEngine;
@@ -13,8 +14,21 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
     {
         private readonly Dictionary<string, object> m_publicProperties = new Dictionary<string, object>();
 
-        public override void Init(string appid, string channelId, string channel, string appKey, string secretKey)
+        private readonly Dictionary<string, string> m_Args = new Dictionary<string, string>();
+
+        public override void Init(Dictionary<string, string> args)
         {
+            Log.Info("GameAnalyticsByGravityEngineManager Init, args:" + Utility.Json.ToJson(args));
+
+            m_Args["accessToken"] = args["accessToken"];
+            m_Args["channel"] = args["channel"];
+            m_Args["debug"] = args["debug"];
+        }
+
+        public override void ManualInit(Dictionary<string, string> args)
+        {
+            Log.Info("GameAnalyticsByGravityEngineManager ManualInit, args:" + Utility.Json.ToJson(args));
+
             var gravityEngineAPI = Object.FindObjectOfType<GravityEngineAPI>();
             if (gravityEngineAPI == null)
             {
@@ -22,7 +36,17 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
                 return;
             }
 
-            GravityEngineAPI.StartGravityEngine(appid, channelId, GravityEngineAPI.SDKRunMode.NORMAL, channel);
+            m_Args["clientId"] = args["clientId"];
+
+            bool debug = false;
+            if (m_Args.ContainsKey("debug"))
+            {
+                debug = m_Args["debug"] == "true";
+            }
+
+            Log.Info("GameAnalyticsByGravityEngineManager ManualInit with accessToken:" + m_Args["accessToken"] + ", clientId:" + m_Args["clientId"] + ", channel:" + m_Args["channel"]);
+
+            GravityEngineAPI.StartGravityEngine(m_Args["accessToken"], m_Args["clientId"], debug ? GravityEngineAPI.SDKRunMode.DEBUG : GravityEngineAPI.SDKRunMode.NORMAL, m_Args["channel"]);
 #if UNITY_WEBGL
 #if ENABLE_WECHAT_MINI_GAME && GRAVITY_WECHAT_GAME_MODE
             GravityEngineAPI.EnableAutoTrack(AUTO_TRACK_EVENTS.WECHAT_GAME_ALL);
@@ -34,6 +58,21 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
 #else
             GravityEngineAPI.EnableAutoTrack(AUTO_TRACK_EVENTS.APP_ALL);
 #endif
+
+            m_IsInit = true;
+            Log.Info("GameAnalyticsByGravityEngineManager ManualInit Success");
+
+            int version = 1;
+            if (m_Args.ContainsKey("version"))
+            {
+                version = int.Parse(m_Args["version"]);
+            }
+            GravityEngineAPI.Initialize(m_Args["clientId"], "default", version, m_Args["clientId"], false, new InitializeCallbackImpl());
+        }
+
+        public override bool IsManualInit()
+        {
+            return true;
         }
 
         public override void SetPublicProperties(string key, object value)
