@@ -12,25 +12,17 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
     /// </summary>
     public sealed class GameAnalyticsByGravityEngineManager : BaseGameAnalyticsManager
     {
-        private readonly Dictionary<string, object> m_publicProperties = new Dictionary<string, object>();
-
-        private GameAnalyticsGravityEngineSetting m_GameAnalyticsSetting;
+        private readonly Dictionary<string, object>        m_publicProperties = new Dictionary<string, object>();
+        private readonly Dictionary<string, string>        Args               = new Dictionary<string, string>();
+        private          GameAnalyticsGravityEngineSetting m_GameAnalyticsSetting;
 
         public override void Init(Dictionary<string, string> args)
         {
             Log.Info("GameAnalyticsByGravityEngineManager Init, args:" + Utility.Json.ToJson(args));
-            m_GameAnalyticsSetting = Utility.Json.ToObject<GameAnalyticsGravityEngineSetting>(Utility.Json.ToJson(args));
-
-            if (m_GameAnalyticsSetting == null)
+            foreach (var arg in args)
             {
-                Debug.LogError("GameAnalyticsByGravityEngineManager Init: GameAnalyticsGravityEngineSetting is null");
-                return;
+                Args[arg.Key] = arg.Value;
             }
-        }
-
-        public override void ManualInit(Dictionary<string, string> args)
-        {
-            Log.Info("GameAnalyticsByGravityEngineManager ManualInit, args:" + Utility.Json.ToJson(args));
 
             var gravityEngineAPI = Object.FindObjectOfType<GravityEngineAPI>();
             if (gravityEngineAPI == null)
@@ -39,14 +31,18 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
                 return;
             }
 
-            m_GameAnalyticsSetting = Utility.Json.ToObject<GameAnalyticsGravityEngineSetting>(Utility.Json.ToJson(args));
+            m_GameAnalyticsSetting = Utility.Json.ToObject<GameAnalyticsGravityEngineSetting>(Utility.Json.ToJson(Args));
 
             if (m_GameAnalyticsSetting == null)
             {
                 Debug.LogError("GameAnalyticsByGravityEngineManager ManualInit: GameAnalyticsGravityEngineSetting is null");
                 return;
             }
+        }
 
+        public override void ManualInit(Dictionary<string, string> args)
+        {
+            Init(args);
             Log.Info("GameAnalyticsByGravityEngineManager ManualInit with accessToken:" + m_GameAnalyticsSetting.accessToken + ", clientId:" + m_GameAnalyticsSetting.clientId + ", channel:" + m_GameAnalyticsSetting.channel);
 
             GravityEngineAPI.StartGravityEngine(m_GameAnalyticsSetting.accessToken, m_GameAnalyticsSetting.clientId, m_GameAnalyticsSetting.debug ? GravityEngineAPI.SDKRunMode.DEBUG : GravityEngineAPI.SDKRunMode.NORMAL, m_GameAnalyticsSetting.channel);
