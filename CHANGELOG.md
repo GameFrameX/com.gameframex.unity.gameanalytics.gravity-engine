@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/compare/1.0.4...1.1.0) (2025-12-24)
+
+
+### Features
+
+* **ci:** change ci ([6904508](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/commit/690450863b303d6eaa19c5c10ba03a7db7d5a320))
+
 # Changelog
 
 ## [1.0.4](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics.gravity-engine/tree/1.0.4) (2025-06-01)
