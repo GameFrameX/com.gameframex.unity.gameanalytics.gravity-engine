@@ -12,9 +12,9 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
     /// </summary>
     public sealed class GameAnalyticsByGravityEngineManager : BaseGameAnalyticsManager
     {
-        private readonly Dictionary<string, object>        m_publicProperties = new Dictionary<string, object>();
-        private readonly Dictionary<string, string>        Args               = new Dictionary<string, string>();
-        private          GameAnalyticsGravityEngineSetting m_GameAnalyticsSetting;
+        private readonly Dictionary<string, object> m_publicProperties = new Dictionary<string, object>();
+        private readonly Dictionary<string, string> Args = new Dictionary<string, string>();
+        private GameAnalyticsGravityEngineSetting m_GameAnalyticsSetting;
 
         public override void Init(Dictionary<string, string> args)
         {
@@ -137,6 +137,11 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
             customF[NumberKey] = eventValue;
             GravityEngineAPI.Track(eventName, customF);
             GravityEngineAPI.Flush();
+        }
+
+        public override void SetPlayerId(string playerId)
+        {
+            SetPublicProperties("playerId", playerId);
         }
 
         const string NumberKey = "__event_value__";

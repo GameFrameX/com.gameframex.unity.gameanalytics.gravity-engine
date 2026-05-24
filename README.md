@@ -1,158 +1,128 @@
-﻿## HOMEPAGE
+<div align="center">
+  <img src="https://download.alianblank.com/gameframex/gameframex_logo_320.png" alt="GameFrameX Logo" width="160" />
 
-GameFrameX 的 GameAnalytics 游戏数据分析的组件
+  # GameFrameX GameAnalytics Gravity Engine
 
-**GameAnalytics 游戏数据分析的组件 (GameAnalytics Component)** - 提供游戏开发者集成和使用游戏数据分析的功能的接口。
+  [![Version](https://img.shields.io/github/v/release/GameFrameX/com.gameframex.unity.gameanalytics.gravity-engine)](https://github.com/GameFrameX/com.gameframex.unity.gameanalytics.gravity-engine/releases)
+  [![License](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE.md)
+  [![Documentation](https://img.shields.io/badge/docs-gameframex-blue.svg)](https://gameframex.doc.alianblank.com)
 
-# 使用文档(文档编写于GPT4)
+  All-in-One Solution for Indie Game Development · Empowering Indie Developers' Dreams
 
-## 简介
+  [Documentation](https://gameframex.doc.alianblank.com) | [Quick Start](#quick-start)
 
-`GameAnalyticsComponent`是一个用于游戏数据分析的组件，它包含了不同类型的事件上报和计时器功能。该组件作为游戏框架的一部分，便于游戏开发者集成和使用游戏数据分析的功能。
+  **English** | [简体中文](README.zh-CN.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+</div>
 
-## 初始化
+---
 
-在Unity的`Awake`方法中，`GameAnalyticsComponent`被初始化，并创建了一个`GameAnalyticsManager`实例。通过调用`Init`方法，完成具体的初始化过程，并设置`_isInit`标志为`true`，以确保后续的方法只在初始化之后被执行。
+## Project Overview
 
-```csharp
-public void Init()
+GameFrameX GameAnalytics Gravity Engine Component - Provides game developers with an interface for integrating and using game analytics functionality powered by Gravity Engine. This component includes event tracking, timer functionality, and custom event reporting.
+
+## Features
+
+- **Event Tracking** - Report simple events, value-based events, and custom field events
+- **Timer Functionality** - Start and stop timers for measuring event durations
+- **Initialization Guard** - All methods check initialization status before executing
+- **Custom Fields** - Support for dictionary-based custom event data
+
+## Installation
+
+### Via Git URL (Recommended)
+
+1. Open Package Manager in Unity Editor
+2. Click the "+" button and select "Add package from git URL"
+3. Enter the following URL:
+   ```
+   https://github.com/GameFrameX/com.gameframex.unity.gameanalytics.gravity-engine.git
+   ```
+
+### Via manifest.json
+
+Add the following to your project's `Packages/manifest.json`:
+
+```json
 {
-    _gameAnalyticsManager.Init();
-    _isInit = true;
+  "dependencies": {
+    "com.gameframex.unity.gameanalytics.gravity-engine": "https://github.com/GameFrameX/com.gameframex.unity.gameanalytics.gravity-engine.git"
+  }
 }
 ```
 
-## 计时功能
+### Manual Installation
 
-### 开始计时
+1. Download the latest release package
+2. Extract it to your project's `Packages` directory
+3. Unity will automatically recognize and load the package
 
-`StartTimer`方法允许开发者为某个事件开始计时。在事件开始时调用此方法，并传入事件名称。
+## Quick Start
+
+### Initialization
+
+Initialize the `GameAnalyticsComponent` in Unity's `Awake` method. Call `Init()` to complete initialization:
 
 ```csharp
-public void StartTimer(string eventName)
-{
-    if (!_isInit)
-    {
-        return;
-    }
+using GameFrameX.GameAnalytics.Runtime;
 
-    _gameAnalyticsManager.StartTimer(eventName);
+public class GameAnalyticsExample : MonoBehaviour
+{
+    private void Awake()
+    {
+        // Get the GameAnalyticsComponent and initialize it
+        var gameAnalyticsComponent = GameEntry.GetComponent<GameAnalyticsComponent>();
+        gameAnalyticsComponent.Init();
+    }
 }
 ```
 
-### 结束计时
-
-结束特定事件的计时，使用`StopTimer`方法，并传入相应的事件名称。
+### Timer Usage
 
 ```csharp
-public void StopTimer(string eventName)
-{
-    if (!_isInit)
-    {
-        return;
-    }
+// Start a timer for an event
+gameAnalyticsComponent.StartTimer("level_complete");
 
-    _gameAnalyticsManager.StopTimer(eventName);
-}
+// Stop the timer when the event ends
+gameAnalyticsComponent.StopTimer("level_complete");
 ```
 
-## 事件上报
-
-### 简单事件上报
-
-用于上报不包含额外数据的简单事件。只需调用`Event`方法并传入事件名称。
+### Event Reporting
 
 ```csharp
-public void Event(string eventName)
-{
-    if (!_isInit)
-    {
-        return;
-    }
+// Simple event
+gameAnalyticsComponent.Event("button_clicked");
 
-    _gameAnalyticsManager.Event(eventName);
-}
+// Event with value
+gameAnalyticsComponent.Event("score_achieved", 100.0f);
+
+// Event with custom fields
+var customFields = new Dictionary<string, string>
+{
+    { "level", "5" },
+    { "character", "warrior" }
+};
+gameAnalyticsComponent.Event("level_started", customFields);
+
+// Event with value and custom fields
+gameAnalyticsComponent.Event("level_completed", 95.5f, customFields);
 ```
 
-### 带数值的事件上报
+## Usage Notes
 
-上报包含数值信息的事件。调用`Event`方法，并传入事件名称以及相关的数值。
+- Ensure the component is properly initialized before calling any methods
+- If not initialized, no operations will be performed, ensuring events are only reported after initialization
+- Event names should be representative and unique to ensure accurate data analysis
 
-```csharp
-public void Event(string eventName, float eventValue)
-{
-    if (!_isInit)
-    {
-        return;
-    }
+## Integration Tips
 
-    _gameAnalyticsManager.Event(eventName, eventValue);
-}
-```
+- Import the namespace `GameFrameX.GameAnalytics.Runtime` in your project
+- Ensure `GameAnalyticsManager` is properly instantiated and registered with `GameFramework`
+- Use `Dictionary<string, string>` for custom fields
 
-### 带自定义字段的事件上报
+## Changelog
 
-上报包含自定义字段的事件。在调用`Event`方法时传入事件名称和一个字典类型的自定义字段数据。
+See [CHANGELOG.md](CHANGELOG.md) for details.
 
-```csharp
-public void Event(string eventName, Dictionary<string, string> customF)
-{
-    if (!_isInit)
-    {
-        return;
-    }
+## License
 
-    // 将字符串字典转换为对象字典
-    var value = new Dictionary<string, object>();
-    foreach (var kv in customF)
-    {
-        value[kv.Key] = kv.Value;
-    }
-
-    _gameAnalyticsManager.Event(eventName, value);
-}
-```
-
-### 带数值和自定义字段的事件上报
-
-上报一个同时包含数值信息和自定义字段的事件，需要调用`Event`方法并传入事件名称、事件数值以及自定义字段的字典。
-
-```csharp
-public void Event(string eventName, float eventValue, Dictionary<string, string> customF)
-{
-    if (!_isInit)
-    {
-        return;
-    }
-
-    var value = new Dictionary<string, object>();
-    foreach (var kv in customF)
-    {
-        value[kv.Key] = kv.Value;
-    }
-
-    _gameAnalyticsManager.Event(eventName, eventValue, value);
-}
-```
-
-## 使用事项
-
-- 请确保在使用组件的任何方法之前，组件已被正确初始化。
-- 若`_isInit`为`false`，则不进行任何操作，确保了只有在组件初始化后事件上报或计时才有效作用。
-- 上报的事件名称应该具有代表性和唯一性，以确保数据分析的准确性。
-
-## 集成提示
-
-- 工程中应引入命名空间`GameFrameX.GameAnalytics.Runtime`。
-- 确保`GameAnalyticsManager`被正确实例化，并已经通过`GameFramework`注册。
-- 对于自定义字段，使用`Dictionary<string, string>`类型保持键值对的数据结构。
-
-# 使用方式(任选其一)
-
-1. 直接在 `manifest.json` 的文件中的 `dependencies` 节点下添加以下内容
-   ```json
-      {"com.gameframex.unity.gameanalytics": "https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git"}
-    ```
-2. 在Unity 的`Packages Manager` 中使用`Git URL` 的方式添加库,地址为：https://github.com/AlianBlank/com.gameframex.unity.gameanalytics.git
-
-3. 直接下载仓库放置到Unity 项目的`Packages` 目录下。会自动加载识别
+This project is licensed under the MIT License - see [LICENSE.md](LICENSE.md) for details.
