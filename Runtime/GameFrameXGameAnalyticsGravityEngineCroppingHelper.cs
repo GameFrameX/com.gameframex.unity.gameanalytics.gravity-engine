@@ -1,15 +1,15 @@
 using UnityEngine;
-using UnityEngine.Scripting;
 
 namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
 {
-    [Preserve]
+    [UnityEngine.Scripting.Preserve]
     internal class GameFrameXGameAnalyticsGravityEngineCroppingHelper : MonoBehaviour
     {
-        [Preserve]
+        [UnityEngine.Scripting.Preserve]
         private void Start()
         {
             _ = typeof(GameAnalyticsByGravityEngineManager);
+            _ = typeof(GravityEngineAnalyticsBootstrap);
         }
     }
 }

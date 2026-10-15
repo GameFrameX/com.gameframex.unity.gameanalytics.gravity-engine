@@ -12,6 +12,11 @@ namespace GameFrameX.GameAnalytics.GravityEngine.Runtime
     /// </summary>
     public sealed class GameAnalyticsByGravityEngineManager : BaseGameAnalyticsManager
     {
+        /// <summary>
+        /// 渠道唯一标识
+        /// </summary>
+        public const string ChannelId = "gravity-engine";
+
         private readonly Dictionary<string, object> m_publicProperties = new Dictionary<string, object>();
         private readonly Dictionary<string, string> Args = new Dictionary<string, string>();
         private GameAnalyticsGravityEngineSetting m_GameAnalyticsSetting;
