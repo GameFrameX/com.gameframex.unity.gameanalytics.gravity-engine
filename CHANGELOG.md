@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/compare/1.1.0...1.2.0) (2026-10-15)
+
+
+### Features
+
+* **gameanalytics:** 渠道接入注册表 Bootstrap 自注册 ([8996c27](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/commit/8996c27bc6297f65a860d29e259f50ea3b77c474))
+
 # [1.1.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/compare/1.0.4...1.1.0) (2025-12-24)
 
 
