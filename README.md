@@ -119,6 +119,26 @@ gameAnalyticsComponent.Event("level_completed", 95.5f, customFields);
 - Ensure `GameAnalyticsManager` is properly instantiated and registered with `GameFramework`
 - Use `Dictionary<string, string>` for custom fields
 
+## Bootstrap Self-Registration (Channel Registry)
+
+This package registers itself into the core package's (`com.gameframex.unity.gameanalytics`) `GameAnalyticsRegistry` at `BeforeSceneLoad` via `GravityEngineAnalyticsBootstrap`. Registration means activation: all analytics events are broadcast to every registered channel. If this package is not installed the code is stripped and registration never happens.
+
+Channel configuration is now strongly typed and assigned at startup (managers are created lazily, so assign any time before scene load):
+
+```csharp
+GameFrameX.GameAnalytics.GravityEngine.Runtime.GravityEngineAnalyticsBootstrap.Setting =
+    new GameFrameX.GameAnalytics.GravityEngine.Runtime.GameAnalyticsGravityEngineSetting
+    {
+        accessToken = "your access token",
+        clientId = "your client id",
+        channel = "channel",
+        debug = false,
+        version = 1,
+    };
+```
+
+**Breaking change / migration:** the previous key-value configuration for GravityEngine on the `GameAnalyticsComponent` Inspector has been removed and no longer takes effect. Use the strongly typed setting above in your game startup code instead.
+
 ## Changelog
 
 See [CHANGELOG.md](CHANGELOG.md) for details.

@@ -119,6 +119,26 @@ gameAnalyticsComponent.Event("level_completed", 95.5f, customFields);
 - 確保 `GameAnalyticsManager` 被正確實例化，並已透過 `GameFramework` 註冊
 - 對於自訂欄位，使用 `Dictionary<string, string>` 類型保持鍵值對的資料結構
 
+## Bootstrap 自註冊（渠道註冊表）
+
+本包透過 `GravityEngineAnalyticsBootstrap` 在 `BeforeSceneLoad` 階段向核心包（`com.gameframex.unity.gameanalytics`）的 `GameAnalyticsRegistry` 自註冊，註冊即生效：所有統計事件廣播到全部註冊渠道。未安裝本包時程式碼被裁剪，註冊不會發生。
+
+渠道配置改為啟動期強型別賦值（管理器懶實例化，場景載入前完成賦值即可生效）：
+
+```csharp
+GameFrameX.GameAnalytics.GravityEngine.Runtime.GravityEngineAnalyticsBootstrap.Setting =
+    new GameFrameX.GameAnalytics.GravityEngine.Runtime.GameAnalyticsGravityEngineSetting
+    {
+        accessToken = "你的 AccessToken",
+        clientId = "你的客戶端ID",
+        channel = "渠道",
+        debug = false,
+        version = 1,
+    };
+```
+
+**破壞性變更 / 遷移說明：** 原先在 `GameAnalyticsComponent` Inspector 上以鍵值對配置 GravityEngine 參數的方式已移除、不再生效，請在遊戲啟動程式碼中改用上述強型別配置。
+
 ## 更新日誌
 
 詳見 [CHANGELOG.md](CHANGELOG.md)。

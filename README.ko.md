@@ -119,6 +119,26 @@ gameAnalyticsComponent.Event("level_completed", 95.5f, customFields);
 - `GameAnalyticsManager`가 올바르게 인스턴스화되고 `GameFramework`에 등록되었는지 확인하세요
 - 사용자 정의 필드에는 `Dictionary<string, string>` 유형을 사용하세요
 
+## Bootstrap 자동 등록(채널 레지스트리)
+
+이 패키지는 `GravityEngineAnalyticsBootstrap`을 통해 `BeforeSceneLoad` 단계에서 코어 패키지(`com.gameframex.unity.gameanalytics`)의 `GameAnalyticsRegistry`에 자동 등록됩니다. 등록 즉시 활성화되며 모든 통계 이벤트가 등록된 전체 채널에 브로드캐스트됩니다. 이 패키지가 설치되지 않으면 코드가 제거되어 등록이 발생하지 않습니다.
+
+채널 설정은 시작 시점의 강타입 할당으로 변경되었습니다(매니저는 지연 생성되므로 씬 로드 전에 할당하면 됩니다):
+
+```csharp
+GameFrameX.GameAnalytics.GravityEngine.Runtime.GravityEngineAnalyticsBootstrap.Setting =
+    new GameFrameX.GameAnalytics.GravityEngine.Runtime.GameAnalyticsGravityEngineSetting
+    {
+        accessToken = "당신의 AccessToken",
+        clientId = "당신의 클라이언트 ID",
+        channel = "채널",
+        debug = false,
+        version = 1,
+    };
+```
+
+**파괴적 변경 / 마이그레이션:** 기존 `GameAnalyticsComponent` Inspector에서 키-값으로 GravityEngine을 구성하던 방식은 제거되어 더 이상 적용되지 않습니다. 위의 강타입 설정을 게임 시작 코드에서 사용하세요.
+
 ## 변경 로그
 
 자세한 내용은 [CHANGELOG.md](CHANGELOG.md)를 참조하세요.

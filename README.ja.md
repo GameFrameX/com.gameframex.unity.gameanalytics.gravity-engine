@@ -119,6 +119,26 @@ gameAnalyticsComponent.Event("level_completed", 95.5f, customFields);
 - `GameAnalyticsManager` が正しくインスタンス化され、`GameFramework` に登録されていることを確認してください
 - カスタムフィールドには `Dictionary<string, string>` 型を使用してください
 
+## Bootstrap 自己登録（チャネルレジストリ）
+
+本パッケージは `GravityEngineAnalyticsBootstrap` により `BeforeSceneLoad` フェーズでコアパッケージ（`com.gameframex.unity.gameanalytics`）の `GameAnalyticsRegistry` に自己登録します。登録は即時に有効化され、すべての統計イベントが登録済みの全チャネルへブロードキャストされます。本パッケージが未インストールの場合、コードはストリップされ登録は発生しません。
+
+チャネル設定は起動時の強型付け代入に変わりました（マネージャーは遅延生成されるため、シーン読み込み前に代入すれば有効です）：
+
+```csharp
+GameFrameX.GameAnalytics.GravityEngine.Runtime.GravityEngineAnalyticsBootstrap.Setting =
+    new GameFrameX.GameAnalytics.GravityEngine.Runtime.GameAnalyticsGravityEngineSetting
+    {
+        accessToken = "あなたの AccessToken",
+        clientId = "あなたのクライアントID",
+        channel = "チャネル",
+        debug = false,
+        version = 1,
+    };
+```
+
+**破壊的変更 / 移行ガイド:** 従来の `GameAnalyticsComponent` Inspector でのキー値ペアによる GravityEngine 設定は削除され、効果がなくなりました。上記の強型付け設定をゲームの起動コードで使用してください。
+
 ## 変更履歴
 
 詳細は [CHANGELOG.md](CHANGELOG.md) をご覧ください。
