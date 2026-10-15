@@ -1,12 +1,12 @@
 {
   "name": "com.gameframex.unity.gameanalytics.gravity-engine",
   "displayName": "Game Frame X Game Analytics(Gravity Engine)",
-  "category": "Game Framework X",
-  "description": "Game Frame X Game Analytics(Gravity Engine) Component",
+  "category": "Game Frame X",
+  "description": "GravityEngine analytics provider for GameFrameX GameAnalytics. Implements the GameFrameX GameAnalytics interface on top of Gravity Engine, reporting simple events, value-based events, and custom field events with dictionary-based data. Supports timers for measuring event durations and checks initialization status before executing any method, keeping calls safe when the SDK is not yet ready. Docs: https://gameframex.doc.alianblank.com\n\nGameFrameX GameAnalytics 的 GravityEngine 统计实现功能包。基于 Gravity Engine 实现 GameFrameX GameAnalytics 接口，支持简单事件、数值事件与携带字典自定义字段的事件上报。提供用于度量事件时长的计时器，并在执行任何方法前检查初始化状态，SDK 未就绪时调用保持安全。文档：https://gameframex.doc.alianblank.com",
   "version": "1.1.0",
   "unity": "2019.4",
   "keywords": [
-    "Game Framework X"
+    "Game Frame X"
   ],
   "repository": {
     "name": "com.gameframex.unity.gameanalytics.gravity-engine",
