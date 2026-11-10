@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/compare/1.2.0...1.2.1) (2026-11-10)
+
+
+### Bug Fixes
+
+* **gameanalytics.gravity-engine:** 添加完整 link.xml 防代码裁剪保护 ([93e8a85](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/commit/93e8a85c6a7d4cbe3bd02dd9c9bf53740b8835b8))
+
 # [1.2.0](https://github.com/gameframex/com.gameframex.unity.gameanalytics.gravity-engine/compare/1.1.0...1.2.0) (2026-10-15)
 
 
